@@ -21,11 +21,12 @@ export default function StoreImage({ src, alt }: Props) {
   // Generate full image path based on format
   let fullSrc = "";
   try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://41.38.56.140/Store.ApI";
     fullSrc = src.startsWith("http")
       ? src
       : src.startsWith("/Icons")
-        ? `${process.env.NEXT_PUBLIC_API_URL}${src}`
-        : `${process.env.NEXT_PUBLIC_API_URL}/Icons/${src}`;
+        ? `${apiUrl}${src}`
+        : `${apiUrl}/Icons/${src}`;
   } catch {
     setError(true);
   }
