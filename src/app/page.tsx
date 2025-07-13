@@ -21,7 +21,7 @@ export default function Home() {
         </div>
       </div>
       {/* فوتر أبيض ثابت بأسفل الصفحة */}
-      <footer className="fixed bottom-0 left-0 w-full bg-white text-[#003366] text-right z-70 font-normal text-[0.85rem] py-[0.7rem]">
+      <footer className="fixed bottom-0 left-0 w-full bg-white text-[#003366] text-right z-70 font-normal text-[0.75rem] py-[0.5rem]">
         <div className="mr-4">All Rights Reserved. Sourcecode-Eg 2021 ©</div>
       </footer>
     </div>
