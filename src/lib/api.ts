@@ -7,13 +7,13 @@ export type StoreTypeInput = {
   Icon_path: File | string | null;
 };
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+
 // ===================================================
 // ✅ Get all store types (with pagination support)
 // ===================================================
 export async function getStoreTypes(page = 1, pageSize = 50): Promise<StoreType[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/GetAllTypes?page=${page}&pageSize=${pageSize}`
-  );
+  const res = await fetch(`${API_BASE}/StoreTypes/GetAllTypes?page=${page}&pageSize=${pageSize}`);
   const json = await res.json();
 
   if (!res.ok || !json.Success) {
@@ -27,7 +27,7 @@ export async function getStoreTypes(page = 1, pageSize = 50): Promise<StoreType[
 // ✅ Get a single store type by ID
 // ===================================================
 export async function getStoreTypeById(id: number): Promise<StoreType> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/GetStoreTypeById/${id}`);
+  const res = await fetch(`${API_BASE}/StoreTypes/GetStoreTypeById/${id}`);
   const json = await res.json();
 
   if (!res.ok || !json.Success) {
@@ -48,7 +48,7 @@ export async function addStoreType(values: StoreTypeInput) {
     Icon_path: typeof values.Icon_path === "string" ? values.Icon_path : "",
   };
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/CreateStoreType`, {
+  const res = await fetch(`${API_BASE}/StoreTypes/CreateStoreType`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -73,7 +73,7 @@ export async function updateStoreType(id: number, values: StoreTypeInput) {
     Icon_path: typeof values.Icon_path === "string" ? values.Icon_path : "",
   };
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/UpdateStoreType/${id}`, {
+  const res = await fetch(`${API_BASE}/StoreTypes/UpdateStoreType/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -91,10 +91,9 @@ export async function updateStoreType(id: number, values: StoreTypeInput) {
 // ✅ Delete a store type by ID
 // ===================================================
 export async function deleteStoreType(typeId: number) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/DeleteStoreType/${typeId}`,
-    { method: "DELETE" }
-  );
+  const res = await fetch(`${API_BASE}/StoreTypes/DeleteStoreType/${typeId}`, {
+    method: "DELETE",
+  });
 
   const json = await res.json();
   if (!res.ok || !json.Success) {

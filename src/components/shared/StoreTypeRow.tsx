@@ -2,6 +2,7 @@ import { StoreType } from "@/types/storeType";
 import Button from "./Button";
 import { FaImage } from "react-icons/fa";
 import { useState } from "react";
+import StoreImage from "./StoreImage";
 
 type StoreTypeRowProps = {
   type: StoreType;
@@ -23,19 +24,7 @@ export default function StoreTypeRow({ type, index, onEdit, onDelete }: StoreTyp
       <td className="p-2">{index + 1}</td>
 
       <td className="p-2">
-        {!imgError && type.Icon_path ? (
-          <img
-            src={imageUrl}
-            alt={type.Name_Ar}
-            onError={() => setImgError(true)}
-            className="w-12 h-12 object-cover rounded"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-12 h-12 flex items-center justify-center bg-gray-100 text-gray-400 rounded">
-            <FaImage size={20} />
-          </div>
-        )}
+        <StoreImage src={type.Icon_path ?? null} alt={type.Name_Ar} />
       </td>
 
       <td className="p-2">{type.Name_Ar}</td>
