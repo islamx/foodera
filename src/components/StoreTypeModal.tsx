@@ -5,12 +5,19 @@ type StoreTypeModalProps = {
   open: boolean;
   onClose: () => void;
   mode?: "add" | "edit";
+  initialValues?: {
+    Name_Ar: string;
+    Name_En: string;
+    IsActive: boolean;
+    Icon_path: File | string | null;
+  };
 };
 
 export default function StoreTypeModal({
   open,
   onClose,
   mode = "add",
+  initialValues,
 }: StoreTypeModalProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -37,7 +44,11 @@ export default function StoreTypeModal({
           </button>
         </div>
 
-        <StoreTypeForm onClose={onClose} />
+        <StoreTypeForm
+          onClose={onClose}
+          mode={mode}
+          initialValues={initialValues}
+        />
       </div>
     </div>
   );

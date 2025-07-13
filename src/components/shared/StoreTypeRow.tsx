@@ -1,12 +1,13 @@
-import { StoreType } from "../types/storeType";
+import { StoreType } from "@/types/storeType";
 import Button from "./Button";
 
 type StoreTypeRowProps = {
   type: StoreType;
   index: number;
+  onEdit: (store: StoreType) => void;
 };
 
-export default function StoreTypeRow({ type, index }: StoreTypeRowProps) {
+export default function StoreTypeRow({ type, index, onEdit }: StoreTypeRowProps) {
   return (
     <tr className="border-b">
       <td className="p-2">{index + 1}</td>
@@ -29,7 +30,11 @@ export default function StoreTypeRow({ type, index }: StoreTypeRowProps) {
         {type.IsActive === null || type.IsActive === false ? "غير مفعل" : "مفعل"}
       </td>
       <td className="p-2 space-x-2 text-sm">
-        <Button variant="outline" className="text-blue-600 hover:underline">
+        <Button
+          variant="outline"
+          className="text-blue-600 hover:underline"
+          onClick={() => onEdit(type)}
+        >
           تعديل
         </Button>
         <Button variant="danger" className="hover:underline">

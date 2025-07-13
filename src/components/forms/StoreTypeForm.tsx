@@ -11,26 +11,39 @@ import Button from "../shared/Button";
 
 type StoreTypeFormProps = {
   onClose: () => void;
+  mode?: "add" | "edit";
+  initialValues?: {
+    Name_Ar: string;
+    Name_En: string;
+    IsActive: boolean;
+    Icon_path: File | string | null;
+  };
 };
 
-export default function StoreTypeForm({ onClose }: StoreTypeFormProps) {
+export default function StoreTypeForm({
+  onClose,
+  mode = "add",
+  initialValues,
+}: StoreTypeFormProps) {
   return (
     <Formik
-      initialValues={{
-        Name_Ar: "",
-        Name_En: "",
-        IsActive: true,
-        Icon_path: null,
-      }}
+      initialValues={
+        initialValues ?? {
+          Name_Ar: "",
+          Name_En: "",
+          IsActive: true,
+          Icon_path: null,
+        }
+      }
       validationSchema={storeTypeSchema}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           await addStoreType(values);
-          toast.success(" تم اضافة القسم ");
+          toast.success(mode === "edit" ? "تم تعديل القسم" : "تم إضافة القسم");
           onClose();
         } catch (error) {
-          toast.error(" فشل في إضافة القسم");
-          console.error("فشل في الإضافة", error);
+          toast.error("فشل في " + (mode === "edit" ? "تعديل" : "إضافة") + " القسم");
+          console.error("فشل في العملية", error);
         } finally {
           setSubmitting(false);
         }
@@ -44,7 +57,7 @@ export default function StoreTypeForm({ onClose }: StoreTypeFormProps) {
 
         <div className="pt-6">
           <Button type="submit" className="w-full">
-            حفظ القسم
+            {mode === "edit" ? "حفظ التعديلات" : "حفظ القسم"}
           </Button>
         </div>
       </Form>
