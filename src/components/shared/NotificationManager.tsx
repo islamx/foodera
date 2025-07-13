@@ -3,6 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import NotificationSystem, { Notification } from "./NotificationSystem";
 
+interface SavedNotification {
+  id: string;
+  type: "add" | "edit" | "delete";
+  message: string;
+  timestamp: string;
+  read: boolean;
+}
+
 export default function NotificationManager() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -11,9 +19,9 @@ export default function NotificationManager() {
     const saved = localStorage.getItem("notifications");
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
+        const parsed: SavedNotification[] = JSON.parse(saved);
         // Convert timestamp strings back to Date objects
-        const notificationsWithDates = parsed.map((n: any) => ({
+        const notificationsWithDates = parsed.map((n: SavedNotification) => ({
           ...n,
           timestamp: new Date(n.timestamp)
         }));
@@ -59,9 +67,10 @@ export default function NotificationManager() {
 
   // Expose addNotification function globally
   useEffect(() => {
-    (window as any).addNotification = addNotification;
+    const windowWithNotification = window as Window & { addNotification?: typeof addNotification };
+    windowWithNotification.addNotification = addNotification;
     return () => {
-      delete (window as any).addNotification;
+      delete windowWithNotification.addNotification;
     };
   }, [addNotification]);
 

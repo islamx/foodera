@@ -51,15 +51,17 @@ export default function StoreTypeForm({
             await updateStoreType(typeId, values);
             toast.success("تم تعديل القسم بنجاح");
             // Add notification for edit
-            if (typeof window !== 'undefined' && (window as any).addNotification) {
-              (window as any).addNotification("edit", values.Name_Ar);
+            const windowWithNotification = window as Window & { addNotification?: (type: string, name: string) => void };
+            if (typeof window !== 'undefined' && windowWithNotification.addNotification) {
+              windowWithNotification.addNotification("edit", values.Name_Ar);
             }
           } else {
             await addStoreType(values);
             toast.success("تم إضافة القسم بنجاح");
             // Add notification for add
-            if (typeof window !== 'undefined' && (window as any).addNotification) {
-              (window as any).addNotification("add", values.Name_Ar);
+            const windowWithNotification = window as Window & { addNotification?: (type: string, name: string) => void };
+            if (typeof window !== 'undefined' && windowWithNotification.addNotification) {
+              windowWithNotification.addNotification("add", values.Name_Ar);
             }
           }
 
