@@ -3,6 +3,7 @@ import StoreTypeForm from "./forms/StoreTypeForm";
 
 type StoreTypeModalProps = {
   open: boolean;
+  onSuccess?: () => void;
   onClose: () => void;
   mode?: "add" | "edit";
   initialValues?: {
@@ -16,6 +17,7 @@ type StoreTypeModalProps = {
 export default function StoreTypeModal({
   open,
   onClose,
+  onSuccess,
   mode = "add",
   initialValues,
 }: StoreTypeModalProps) {
@@ -46,6 +48,7 @@ export default function StoreTypeModal({
 
         <StoreTypeForm
           onClose={onClose}
+          onSuccess={onSuccess}
           mode={mode}
           initialValues={initialValues}
         />

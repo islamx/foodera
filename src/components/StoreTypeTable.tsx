@@ -15,6 +15,15 @@ export default function StoreTypeTable() {
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [selectedItem, setSelectedItem] = useState<StoreType | null>(null);
 
+  const refreshData = async () => {
+    try {
+      const data = await getStoreTypes();
+      setStoreTypes(data);
+    } catch (error) {
+      console.error("Error refreshing store types", error);
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -25,7 +34,7 @@ export default function StoreTypeTable() {
       }
     }
 
-    fetchData();
+    refreshData();
   }, []);
 
   const handleAdd = () => {
@@ -75,6 +84,7 @@ export default function StoreTypeTable() {
       <StoreTypeModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onSuccess={refreshData}
         mode={mode}
         initialValues={
           selectedItem
