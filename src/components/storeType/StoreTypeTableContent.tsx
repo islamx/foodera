@@ -16,7 +16,6 @@ export default function StoreTypeTableContent({ currentItems, handleEdit, handle
         <StoreTypeRow
           key={`${type.Id}-${index}`}
           type={type}
-          index={index}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

@@ -57,9 +57,8 @@ export async function addStoreType(values: StoreTypeInput) {
   const json = await res.json();
   if (!res.ok || !json.Success) {
     if (json.errors) {
-      for (const [field, messages] of Object.entries(json.errors)) {
-        // Log validation errors silently
-      }
+      // Log validation errors silently
+      Object.entries(json.errors);
     }
     
     throw new Error(json.Message || "Failed to add store type");
@@ -92,15 +91,14 @@ export async function updateStoreType(id: string | number, values: StoreTypeInpu
   let json;
   try {
     json = JSON.parse(text);
-  } catch (parseError) {
+  } catch {
     throw new Error(`Invalid JSON response: ${text.substring(0, 100)}`);
   }
 
   if (!res.ok || !json.Success) {
     if (json.errors) {
-      for (const [field, messages] of Object.entries(json.errors)) {
-        // Log validation errors silently
-      }
+      // Log validation errors silently
+      Object.entries(json.errors);
     }
     throw new Error(json.Message || "فشل في تحديث القسم");
   }
@@ -111,7 +109,7 @@ export async function updateStoreType(id: string | number, values: StoreTypeInpu
 // ===================================================
 // ❌ Delete a store type by ID (API doesn't support DELETE)
 // ===================================================
-export async function deleteStoreType(typeId: string | number) {
+export async function deleteStoreType() {
   // API doesn't support DELETE operation
   // We can either:
   // 1. Deactivate the store type instead of deleting

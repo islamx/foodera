@@ -62,7 +62,7 @@ export default function StoreTypeTable() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (typeId: string | number) => {
+  const handleDelete = async () => {
     const confirm = window.confirm("هل أنت متأكد أنك تريد حذف هذا القسم؟");
     if (!confirm) return;
     toast("الحذف غير متاح حاليًا — برجاء التواصل مع الإدارة");

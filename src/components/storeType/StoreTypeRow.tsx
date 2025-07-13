@@ -5,12 +5,11 @@ import StoreImage from "../shared/StoreImage";
 
 type StoreTypeRowProps = {
   type: StoreType;
-  index: number;
   onEdit: (store: StoreType) => void;
   onDelete: (id: string | number) => void;
 };
 
-export default function StoreTypeRow({ type, index, onEdit, onDelete }: StoreTypeRowProps) {
+export default function StoreTypeRow({ type, onEdit, onDelete }: StoreTypeRowProps) {
 
   return (
     <tr className="border-b border-gray-200">

@@ -28,7 +28,7 @@ export default function StoreTypeModal({
     };
     if (open) document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
