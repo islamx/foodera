@@ -7,6 +7,9 @@ import Table from "./shared/Table";
 import StoreTypeRow from "./shared/StoreTypeRow";
 import StoreTypeModal from "./StoreTypeModal";
 import { toast } from "react-hot-toast";
+import Loader from "./shared/Loader";
+import Pagination from "./shared/Pagination";
+import SearchInput from "./shared/SearchInput";
 
 export default function StoreTypeTable() {
   const [storeTypes, setStoreTypes] = useState<StoreType[]>([]);
@@ -15,12 +18,20 @@ export default function StoreTypeTable() {
   const [selectedItem, setSelectedItem] = useState<StoreType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
   const itemsPerPage = 5;
+
+  // Filter storeTypes by search
+  const filteredStoreTypes = storeTypes.filter(
+    (type) =>
+      type.Name_Ar.toLowerCase().includes(search.toLowerCase()) ||
+      type.Name_En.toLowerCase().includes(search.toLowerCase())
+  );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = storeTypes.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(storeTypes.length / itemsPerPage);
+  const currentItems = filteredStoreTypes.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredStoreTypes.length / itemsPerPage);
 
   const refreshData = async () => {
     try {
@@ -88,18 +99,18 @@ export default function StoreTypeTable() {
             <div className="text-base md:text-lg font-bold text-[#bfa100]">أقسام التطبيق</div>
             <div className="text-xs text-gray-700">جدول خاص بالأقسام</div>
           </div>
-          <input
-            type="text"
+          <SearchInput
+            value={search}
+            onChange={e => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
             placeholder="ابحث"
-            className="px-3 py-1 rounded bg-white border border-gray-200 text-xs text-right w-full md:w-40"
-            style={{ direction: "rtl" }}
           />
         </div>
         {/* Table with pagination or loading spinner */}
         {loading ? (
-          <div className="flex justify-center items-center" style={{ minHeight: '250px' }}>
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-yellow-400 border-t-transparent"></div>
-          </div>
+          <Loader />
         ) : (
           <>
             <Table headers={["الاسم بالعربي", "الاسم بالإنجليزي", "الصورة", "الحالة", "حذف", "تعديل"]}>
@@ -113,34 +124,11 @@ export default function StoreTypeTable() {
                 />
               ))}
             </Table>
-            {/* Pagination controls */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 my-4">
-                <button
-                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
-                >
-                  السابق
-                </button>
-                {[...Array(totalPages)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-yellow-400 text-white' : 'bg-gray-100 text-gray-700'}`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
-                >
-                  التالي
-                </button>
-              </div>
-            )}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           </>
         )}
       </div>
