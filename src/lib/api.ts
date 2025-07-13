@@ -1,70 +1,118 @@
 import { StoreType } from "../types/storeType";
 
-type StoreTypeInput = {
+export type StoreTypeInput = {
   Name_Ar: string;
   Name_En: string;
   IsActive: boolean;
   Icon_path: File | string | null;
 };
 
-// Fetch all store types
-export async function getStoreTypes(): Promise<StoreType[]> {
-  const response = await fetch("/api/store-types");
+// ===================================================
+// ✅ Get all store types (with pagination support)
+// ===================================================
+export async function getStoreTypes(page = 1, pageSize = 50): Promise<StoreType[]> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/GetAllTypes?page=${page}&pageSize=${pageSize}`
+  );
+  const json = await res.json();
 
-  if (!response.ok) throw new Error("Failed to fetch store types");
-
-  const data = await response.json();
-  return data;
-}
-
-// Shared function to build FormData
-function buildStoreTypeFormData(values: StoreTypeInput): FormData {
-  const formData = new FormData();
-  formData.append("Name_Ar", values.Name_Ar);
-  formData.append("Name_En", values.Name_En);
-  formData.append("IsActive", String(values.IsActive));
-
-  if (values.Icon_path instanceof File) {
-    formData.append("Icon", values.Icon_path);
+  if (!res.ok || !json.Success) {
+    throw new Error(json.Message || "Failed to fetch store types");
   }
 
-  return formData;
+  return json.Data;
 }
 
-// Add new store type (mock)
+// ===================================================
+// ✅ Get a single store type by ID
+// ===================================================
+export async function getStoreTypeById(id: number): Promise<StoreType> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/GetStoreTypeById/${id}`);
+  const json = await res.json();
+
+  if (!res.ok || !json.Success) {
+    throw new Error(json.Message || "Failed to fetch store type details");
+  }
+
+  return json.Data;
+}
+
+// ===================================================
+// ✅ Create a new store type
+// ===================================================
 export async function addStoreType(values: StoreTypeInput) {
-  console.log("📦 Mock ADD request payload:", values);
+  const body = {
+    Name_Ar: values.Name_Ar,
+    Name_En: values.Name_En,
+    IsActive: values.IsActive,
+    Icon_path: typeof values.Icon_path === "string" ? values.Icon_path : "",
+  };
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true, message: "Successfully added (mock)" });
-    }, 1000);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/CreateStoreType`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
+
+  const json = await res.json();
+  if (!res.ok || !json.Success) {
+    throw new Error(json.Message || "Failed to add store type");
+  }
+
+  return json.Data;
 }
 
-// Update existing store type (mock)
-export async function updateStoreType(values: StoreTypeInput) {
-  console.log("🛠️ Mock UPDATE request payload:", values);
+// ===================================================
+// ✅ Update an existing store type
+// ===================================================
+export async function updateStoreType(id: number, values: StoreTypeInput) {
+  const body = {
+    Name_Ar: values.Name_Ar,
+    Name_En: values.Name_En,
+    IsActive: values.IsActive,
+    Icon_path: typeof values.Icon_path === "string" ? values.Icon_path : "",
+  };
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true, message: "Successfully updated (mock)" });
-    }, 1000);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/UpdateStoreType/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
   });
+
+  const json = await res.json();
+  if (!res.ok || !json.Success) {
+    throw new Error(json.Message || "Failed to update store type");
+  }
+
+  return json.Data;
 }
 
-// Delete store type (mock)
+// ===================================================
+// ✅ Delete a store type by ID
+// ===================================================
 export async function deleteStoreType(typeId: number) {
-  console.log("🗑️ Mock DELETE store type:", typeId);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/DeleteStoreType/${typeId}`,
+    { method: "DELETE" }
+  );
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true, message: "Deleted (mock)" });
-    }, 700);
-  });
+  const json = await res.json();
+  if (!res.ok || !json.Success) {
+    throw new Error(json.Message || "Failed to delete store type");
+  }
+
+  return json.Data;
 }
 
-// Unified entry point
-export async function addOrUpdateStoreType(values: StoreTypeInput, mode: "add" | "edit") {
-  return mode === "add" ? addStoreType(values) : updateStoreType(values);
+// ===================================================
+// ✅ Smart helper for add or update modes
+// ===================================================
+export async function addOrUpdateStoreType(
+  values: StoreTypeInput,
+  mode: "add" | "edit",
+  id?: number
+) {
+  return mode === "add"
+    ? addStoreType(values)
+    : updateStoreType(id as number, values);
 }

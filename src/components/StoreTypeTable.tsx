@@ -17,23 +17,15 @@ export default function StoreTypeTable() {
 
   const refreshData = async () => {
     try {
-      const data = await getStoreTypes();
+      const data = await getStoreTypes(1, 50); // pagination params
       setStoreTypes(data);
     } catch (error) {
       console.error("Error refreshing store types", error);
+      toast.error("فشل في تحميل الأقسام");
     }
   };
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getStoreTypes();
-        setStoreTypes(data);
-      } catch (error) {
-        console.error("Error fetching store types", error);
-      }
-    }
-
     refreshData();
   }, []);
 
@@ -54,7 +46,7 @@ export default function StoreTypeTable() {
     if (!confirm) return;
 
     try {
-      await deleteStoreType(typeId);
+      await deleteStoreType(typeId); // حالياً mock
       toast.success("تم حذف القسم");
       setStoreTypes((prev) => prev.filter((s) => s.TypeId !== typeId));
     } catch (error) {
@@ -72,7 +64,7 @@ export default function StoreTypeTable() {
       <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة", "إجراءات"]}>
         {storeTypes.map((type, index) => (
           <StoreTypeRow
-            key={type.TypeId}
+            key={`${type.TypeId}-${index}`}
             type={type}
             index={index}
             onEdit={handleEdit}
