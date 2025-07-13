@@ -57,21 +57,33 @@ export default function StoreTypeTable() {
 
   return (
     <>
-      <div className="flex justify-end mb-4">
-        <Button onClick={handleAdd}>+ إضافة قسم جديد</Button>
-      </div>
-
-      <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة", "إجراءات"]}>
-        {storeTypes.map((type, index) => (
-          <StoreTypeRow
-            key={`${type.TypeId}-${index}`}
-            type={type}
-            index={index}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+      {/* احذف جميع النصوص والعناوين فوق الجدول */}
+      <div className="w-full bg-white rounded-lg border border-gray-200 p-0 overflow-x-auto mb-8">
+        {/* الهيدر الأصفر الجديد مع البحث */}
+        <div className="bg-[#FFD600] px-6 py-3 flex items-center justify-between text-right">
+          <div>
+            <div className="text-lg font-bold text-[#bfa100]">أقسام التطبيق</div>
+            <div className="text-xs text-gray-700">جدول خاص بالأقسام</div>
+          </div>
+          <input
+            type="text"
+            placeholder="ابحث"
+            className="px-3 py-1 rounded bg-white border border-gray-200 text-xs text-right w-40"
+            style={{ direction: "rtl" }}
           />
-        ))}
-      </Table>
+        </div>
+        <Table headers={["الاسم بالعربي", "الاسم بالإنجليزي", "الصورة", "الحالة", "حذف", "تعديل"]}>
+          {storeTypes.map((type, index) => (
+            <StoreTypeRow
+              key={`${type.TypeId}-${index}`}
+              type={type}
+              index={index}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </Table>
+      </div>
 
       <StoreTypeModal
         open={isModalOpen}

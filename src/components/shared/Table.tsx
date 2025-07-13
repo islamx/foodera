@@ -5,7 +5,7 @@ type TableProps = {
 
 export default function Table({ headers, children }: TableProps) {
   return (
-    <table className="w-full border text-right mt-4">
+    <table className="w-full border text-right">
       <thead className="bg-gray-100">
         <tr>
           {headers.map((h, i) => (
