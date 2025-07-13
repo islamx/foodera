@@ -6,6 +6,7 @@ import { getStoreTypes } from "../lib/api";
 import Table from "./shared/Table";
 import StoreTypeRow from "./shared/StoreTypeRow";
 import StoreTypeModal from "./StoreTypeModal";
+import Button from "./shared/Button";
 
 export default function StoreTypeTable() {
   const [storeTypes, setStoreTypes] = useState<StoreType[]>([]);
@@ -26,6 +27,12 @@ export default function StoreTypeTable() {
     fetchData();
   }, []);
 
+  const handleAdd = () => {
+    setSelectedItem(null);
+    setMode("add");
+    setIsModalOpen(true);
+  };
+
   const handleEdit = (store: StoreType) => {
     setSelectedItem(store);
     setMode("edit");
@@ -34,6 +41,10 @@ export default function StoreTypeTable() {
 
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <Button onClick={handleAdd}>+ إضافة قسم جديد</Button>
+      </div>
+
       <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة", "إجراءات"]}>
         {storeTypes.map((type, index) => (
           <StoreTypeRow key={type.TypeId} type={type} index={index} onEdit={handleEdit} />
