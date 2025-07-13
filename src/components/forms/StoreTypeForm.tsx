@@ -2,7 +2,7 @@
 
 import { Formik, Form } from "formik";
 import { storeTypeSchema } from "../../validation/storeTypeSchema";
-import { addStoreType } from "../../lib/api";
+import { addStoreType, updateStoreType } from "../../lib/api";
 import { toast } from "react-hot-toast";
 import InputField from "../shared/InputField";
 import CheckboxField from "../shared/CheckboxField";
@@ -13,6 +13,7 @@ type StoreTypeFormProps = {
   onClose: () => void;
   mode?: "add" | "edit";
   onSuccess?: () => void;
+  typeId?: string;
   initialValues?: {
     Name_Ar: string;
     Name_En: string;
@@ -25,6 +26,7 @@ export default function StoreTypeForm({
   onClose,
   onSuccess,
   mode = "add",
+  typeId,
   initialValues,
 }: StoreTypeFormProps) {
   return (
@@ -40,8 +42,19 @@ export default function StoreTypeForm({
       validationSchema={storeTypeSchema}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          await addStoreType(values);
-          toast.success(mode === "edit" ? "تم تعديل القسم" : "تم إضافة القسم");
+          if (values.Icon_path instanceof File) {
+            toast.error("يرجى إدخال اسم الصورة فقط (مثل bakery.png)");
+            return;
+          }
+
+          if (mode === "edit" && typeId) {
+            await updateStoreType(typeId, values);
+            toast.success("تم تعديل القسم");
+          } else {
+            await addStoreType(values);
+            toast.success("تم إضافة القسم");
+          }
+
           onSuccess?.();
           onClose();
         } catch (error) {
@@ -51,6 +64,7 @@ export default function StoreTypeForm({
           setSubmitting(false);
         }
       }}
+      
     >
       {({ isSubmitting }) => (
         <Form className="space-y-4">

@@ -7,6 +7,7 @@ type StoreTypeModalProps = {
   onClose: () => void;
   mode?: "add" | "edit";
   initialValues?: {
+    TypeId?: string; // Changed to string to match API response
     Name_Ar: string;
     Name_En: string;
     IsActive: boolean;
@@ -51,6 +52,7 @@ export default function StoreTypeModal({
           onSuccess={onSuccess}
           mode={mode}
           initialValues={initialValues}
+          typeId={initialValues?.TypeId}
         />
       </div>
     </div>

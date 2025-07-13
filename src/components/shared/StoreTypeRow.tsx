@@ -1,23 +1,16 @@
 import { StoreType } from "@/types/storeType";
 import Button from "./Button";
-import { FaImage, FaEdit, FaTrash } from "react-icons/fa";
-import { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import StoreImage from "./StoreImage";
 
 type StoreTypeRowProps = {
   type: StoreType;
   index: number;
   onEdit: (store: StoreType) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: string | number) => void;
 };
 
 export default function StoreTypeRow({ type, index, onEdit, onDelete }: StoreTypeRowProps) {
-  const [imgError, setImgError] = useState(false); // ⬅️ للتحكم في حالة فشل الصورة
-
-  const imageUrl =
-    type.Icon_path?.startsWith("http") || type.Icon_path?.startsWith("/")
-      ? type.Icon_path
-      : `${process.env.NEXT_PUBLIC_API_URL}/Icons/${type.Icon_path}`;
 
   return (
     <tr className="border-b border-gray-200">
@@ -37,7 +30,7 @@ export default function StoreTypeRow({ type, index, onEdit, onDelete }: StoreTyp
         <Button
           variant="danger"
           className="bg-[#ffb3b3] text-red-900 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold hover:bg-red-200 transition-all"
-          onClick={() => onDelete(type.TypeId)}
+          onClick={() => onDelete(type.Id)}
         >
           <FaTrash size={12} /> حذف
         </Button>
