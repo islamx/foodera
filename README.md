@@ -4,7 +4,7 @@ A modern, responsive web application for managing store types and categories wit
 
 ## 🚀 Live Demo
 
-Visit the live application: **[https://typika.vercel.app/](https://typika.vercel.app/)**
+Visit the live application: **[https://typika.vercel.app/](https://typika.vercel.app/){:target="_blank" rel="noopener noreferrer"}**
 
 ## 📋 About
 
@@ -64,7 +64,7 @@ yarn dev
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000){:target="_blank" rel="noopener noreferrer"} with your browser to see the result.
 
 ## 📁 Project Structure
 
@@ -91,10 +91,10 @@ src/
 
 ## 👨‍💻 Author
 
-**Islam Abdelzaer** - Founder at [islamz.me](https://islamz.me)
+**Islam Abdelzaer** - Founder at [islamz.me](https://islamz.me){:target="_blank" rel="noopener noreferrer"}
 
-- **Website**: [https://islamz.me](https://islamz.me)
-- **GitHub**: [@islamz](https://github.com/islamz)
+- **Website**: [https://islamz.me](https://islamz.me){:target="_blank" rel="noopener noreferrer"}
+- **GitHub**: [@islamz](https://github.com/islamz){:target="_blank" rel="noopener noreferrer"}
 
 ## 📄 License
 
