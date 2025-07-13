@@ -141,7 +141,7 @@ export default function StoreTypeTable() {
         initialValues={
           selectedItem
             ? {
-              TypeId: selectedItem.Id, // استخدام Id بدلاً من TypeId
+              TypeId: selectedItem.Id, // Use Id instead of TypeId
               Name_Ar: selectedItem.Name_Ar,
               Name_En: selectedItem.Name_En,
               IsActive: selectedItem.IsActive ?? false,

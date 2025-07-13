@@ -36,7 +36,7 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFieldValue(name, null); // نمنع استخدام الـ file
+      setFieldValue(name, null); // Prevent using file upload
       alert("⚠️ رفع الصور غير مدعوم حاليًا. استخدم فقط اسم الصورة الموجود على السيرفر.");
     }
   };
@@ -46,11 +46,11 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
 
     if (value.startsWith("http")) {
       const parts = value.split("/");
-      value = parts[parts.length - 1]; // فقط اسم الصورة
+      value = parts[parts.length - 1]; // Only the image name
     }
 
     if (value.startsWith("/Icons/")) {
-      value = value.replace("/Icons/", ""); // احذف المسار
+      value = value.replace("/Icons/", ""); // Remove the path
     }
 
     setFieldValue(name, value);
