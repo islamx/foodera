@@ -1,4 +1,5 @@
 import { StoreType } from "../types/storeType";
+import Button from "./Button";
 
 type StoreTypeRowProps = {
   type: StoreType;
@@ -27,9 +28,13 @@ export default function StoreTypeRow({ type, index }: StoreTypeRowProps) {
       <td className="p-2">
         {type.IsActive === null || type.IsActive === false ? "غير مفعل" : "مفعل"}
       </td>
-      <td className="p-2 space-x-2 text-sm text-blue-600">
-        <button className="hover:underline">تعديل</button>
-        <button className="text-red-600 hover:underline">حذف</button>
+      <td className="p-2 space-x-2 text-sm">
+        <Button variant="outline" className="text-blue-600 hover:underline">
+          تعديل
+        </Button>
+        <Button variant="danger" className="hover:underline">
+          حذف
+        </Button>
       </td>
     </tr>
   );

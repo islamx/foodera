@@ -1,6 +1,8 @@
+"use client";
 import Sidebar from "@/components/Sidebar";
 import StoreTypeTable from "@/components/StoreTypeTable";
 import Topbar from "@/components/Topbar";
+import Button from "@/components/shared/Button";
 
 export default function Home() {
   return (
@@ -10,6 +12,13 @@ export default function Home() {
         <Topbar />
         <main className="p-4">
           <h1 className="text-xl font-semibold mb-4">إدارة أقسام التطبيق</h1>
+
+          <div className="flex justify-end mb-4">
+            <Button onClick={() => console.log("إضافة قسم جديد")}>
+              + إضافة قسم جديد
+            </Button>
+          </div>
+
           <StoreTypeTable />
         </main>
       </div>
