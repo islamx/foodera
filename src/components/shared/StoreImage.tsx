@@ -1,5 +1,5 @@
 import { FaImage } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Props = {
   src: string | null;
@@ -8,6 +8,36 @@ type Props = {
 
 export default function StoreImage({ src, alt }: Props) {
   const [error, setError] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (!src) {
+      setError(true);
+      return;
+    }
+
+    // Generate full image path based on format
+    let fullSrc = "";
+    try {
+      if (src.startsWith("http")) {
+        // Direct URL
+        fullSrc = src;
+      } else if (src.startsWith("/Icons")) {
+        // Use proxy to avoid CORS issues on Vercel
+        const imagePath = src.replace("/Icons/", "");
+        fullSrc = `/api/images/${imagePath}`;
+      } else {
+        // Default API path - use proxy
+        fullSrc = `/api/images/${src}`;
+      }
+      
+      console.log("Image URL:", fullSrc); // Debug log
+      setImageUrl(fullSrc);
+    } catch (err) {
+      console.error("Error generating image URL:", err);
+      setError(true);
+    }
+  }, [src]);
 
   // Fallback icon if no image or failed to load
   if (!src || error) {
@@ -18,25 +48,16 @@ export default function StoreImage({ src, alt }: Props) {
     );
   }
 
-  // Generate full image path based on format
-  let fullSrc = "";
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://41.38.56.140/Store.ApI";
-    fullSrc = src.startsWith("http")
-      ? src
-      : src.startsWith("/Icons")
-        ? `${apiUrl}${src}`
-        : `${apiUrl}/Icons/${src}`;
-  } catch {
-    setError(true);
-  }
-
   return (
     <img
-      src={fullSrc}
+      src={imageUrl}
       alt={alt}
       className="w-12 h-12 object-cover rounded"
-      onError={() => setError(true)}
+      onError={(e) => {
+        console.error("Image failed to load:", imageUrl, e);
+        setError(true);
+      }}
+      onLoad={() => console.log("Image loaded successfully:", imageUrl)}
       loading="lazy"
     />
   );
