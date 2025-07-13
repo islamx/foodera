@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-tajawal), Arial, Helvetica, sans-serif;
 }
+
+button {
+  cursor: pointer;
+}

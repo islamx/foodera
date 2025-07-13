@@ -13,11 +13,19 @@ export default function StoreTypeTable() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [selectedItem, setSelectedItem] = useState<StoreType | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = storeTypes.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(storeTypes.length / itemsPerPage);
 
   const refreshData = async () => {
     try {
       const data = await getStoreTypes(1, 50); // pagination params
       setStoreTypes(data);
+      setCurrentPage(1); // Reset to first page on data refresh
     } catch (error) {
       console.error("Error refreshing store types", error);
       toast.error("فشل في تحميل الأقسام");
@@ -55,8 +63,8 @@ export default function StoreTypeTable() {
 
   return (
     <>
-      {/* Floating Action Button */}
-      <div className="fixed bottom-20 left-4 md:left-6 z-40">
+      {/* Floating Action Button - adjusted for mobile with bottom nav */}
+      <div className="fixed bottom-24 md:bottom-20 left-2 md:left-4 lg:left-6 z-40">
         <button
           onClick={handleAdd}
           className="bg-[#FFD600] hover:bg-[#bfa100] text-[#003366] rounded-full w-12 h-12 md:w-14 md:h-14 shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
@@ -69,22 +77,23 @@ export default function StoreTypeTable() {
       </div>
 
       {/* احذف جميع النصوص والعناوين فوق الجدول */}
-      <div className="w-full bg-white rounded-lg border border-gray-200 p-0 overflow-x-auto mb-8">
-        {/* الهيدر الأصفر الجديد مع البحث */}
-        <div className="bg-[#FFD600] px-6 py-3 flex items-center justify-between text-right">
+      <div className="w-full bg-white rounded-lg border border-gray-200 p-0 mb-8 px-2 md:px-0">
+        {/* الهيدر الأصفر الجديد مع البحث - mobile responsive */}
+        <div className="bg-[#FFD600] px-3 md:px-6 py-3 flex flex-col md:flex-row md:items-center justify-between text-right gap-2 md:gap-0">
           <div>
-            <div className="text-lg font-bold text-[#bfa100]">أقسام التطبيق</div>
+            <div className="text-base md:text-lg font-bold text-[#bfa100]">أقسام التطبيق</div>
             <div className="text-xs text-gray-700">جدول خاص بالأقسام</div>
           </div>
           <input
             type="text"
             placeholder="ابحث"
-            className="px-3 py-1 rounded bg-white border border-gray-200 text-xs text-right w-40"
+            className="px-3 py-1 rounded bg-white border border-gray-200 text-xs text-right w-full md:w-40"
             style={{ direction: "rtl" }}
           />
         </div>
+        {/* Table with pagination */}
         <Table headers={["الاسم بالعربي", "الاسم بالإنجليزي", "الصورة", "الحالة", "حذف", "تعديل"]}>
-          {storeTypes.map((type, index) => (
+          {currentItems.map((type, index) => (
             <StoreTypeRow
               key={`${type.Id}-${index}`}
               type={type}
@@ -94,6 +103,34 @@ export default function StoreTypeTable() {
             />
           ))}
         </Table>
+        {/* Pagination controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 my-4">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
+            >
+              السابق
+            </button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? 'bg-yellow-400 text-white' : 'bg-gray-100 text-gray-700'}`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
+            >
+              التالي
+            </button>
+          </div>
+        )}
       </div>
 
       <StoreTypeModal
