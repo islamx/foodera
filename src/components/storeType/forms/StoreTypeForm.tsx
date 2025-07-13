@@ -1,13 +1,13 @@
 "use client";
 
 import { Formik, Form } from "formik";
-import { storeTypeSchema } from "../../validation/storeTypeSchema";
-import { addStoreType, updateStoreType } from "../../lib/api";
+import { storeTypeSchema } from "../../../validation/storeTypeSchema";
+import { addStoreType, updateStoreType } from "../../../lib/api";
 import { toast } from "react-hot-toast";
-import InputField from "../shared/InputField";
-import CheckboxField from "../shared/CheckboxField";
-import ImageUploadField from "../shared/ImageUploadField";
-import Button from "../shared/Button";
+import InputField from "../../shared/InputField";
+import CheckboxField from "../../shared/CheckboxField";
+import ImageUploadField from "../../shared/ImageUploadField";
+import Button from "../../shared/Button";
 
 type StoreTypeFormProps = {
   onClose: () => void;
@@ -93,4 +93,4 @@ export default function StoreTypeForm({
       )}
     </Formik>
   );
-}
+} 

@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
-import StoreTypeTable from "@/components/StoreTypeTable";
+import StoreTypeTable from "@/components/storeType/StoreTypeTable";
 import Topbar from "@/components/Topbar";
 
 export default function Home() {

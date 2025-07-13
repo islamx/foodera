@@ -1,7 +1,7 @@
 import { StoreType } from "@/types/storeType";
-import Button from "./Button";
+import Button from "../shared/Button";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import StoreImage from "./StoreImage";
+import StoreImage from "../shared/StoreImage";
 
 type StoreTypeRowProps = {
   type: StoreType;

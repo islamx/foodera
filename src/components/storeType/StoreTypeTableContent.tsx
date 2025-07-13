@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "./Table";
+import Table from "../shared/Table";
 import StoreTypeRow from "./StoreTypeRow";
 import { StoreType } from "../../types/storeType";
 

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { StoreType } from "../types/storeType";
-import { getStoreTypes } from "../lib/api";
-import Loader from "./shared/Loader";
-import Pagination from "./shared/Pagination";
-import FloatingActionButton from "./shared/FloatingActionButton";
-import StoreTypeTableHeader from "./shared/StoreTypeTableHeader";
-import StoreTypeTableContent from "./shared/StoreTypeTableContent";
+import { StoreType } from "../../types/storeType";
+import { getStoreTypes } from "../../lib/api";
+import Loader from "../shared/Loader";
+import Pagination from "../shared/Pagination";
+import FloatingActionButton from "../shared/FloatingActionButton";
+import StoreTypeTableHeader from "./StoreTypeTableHeader";
+import StoreTypeTableContent from "./StoreTypeTableContent";
 import StoreTypeModal from "./StoreTypeModal";
 import { toast } from "react-hot-toast";
 
