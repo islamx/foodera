@@ -70,9 +70,13 @@ export default function StoreTypeTable() {
 
   return (
     <>
-      <FloatingActionButton onClick={handleAdd} title="إضافة قسم جديد" />
+      <FloatingActionButton onClick={handleAdd} title="إضافة قسم جديد" showText={true} />
       <div className="w-full bg-white rounded-lg border border-gray-200 p-0 mb-8 px-2 md:px-0">
-        <StoreTypeTableHeader search={search} setSearch={setSearch} setCurrentPage={setCurrentPage} />
+        <StoreTypeTableHeader 
+          search={search} 
+          setSearch={setSearch} 
+          setCurrentPage={setCurrentPage} 
+        />
         {loading ? (
           <Loader />
         ) : (
