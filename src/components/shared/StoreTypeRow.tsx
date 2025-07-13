@@ -5,9 +5,10 @@ type StoreTypeRowProps = {
   type: StoreType;
   index: number;
   onEdit: (store: StoreType) => void;
+  onDelete: (id: number) => void;
 };
 
-export default function StoreTypeRow({ type, index, onEdit }: StoreTypeRowProps) {
+export default function StoreTypeRow({ type, index, onEdit, onDelete }: StoreTypeRowProps) {
   return (
     <tr className="border-b">
       <td className="p-2">{index + 1}</td>
@@ -37,7 +38,11 @@ export default function StoreTypeRow({ type, index, onEdit }: StoreTypeRowProps)
         >
           تعديل
         </Button>
-        <Button variant="danger" className="hover:underline">
+        <Button
+          variant="danger"
+          className="hover:underline"
+          onClick={() => onDelete(type.TypeId)}
+        >
           حذف
         </Button>
       </td>

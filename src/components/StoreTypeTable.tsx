@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { StoreType } from "../types/storeType";
-import { getStoreTypes } from "../lib/api";
+import { deleteStoreType, getStoreTypes } from "../lib/api";
 import Table from "./shared/Table";
 import StoreTypeRow from "./shared/StoreTypeRow";
 import StoreTypeModal from "./StoreTypeModal";
 import Button from "./shared/Button";
+import { toast } from "react-hot-toast";
 
 export default function StoreTypeTable() {
   const [storeTypes, setStoreTypes] = useState<StoreType[]>([]);
@@ -39,6 +40,20 @@ export default function StoreTypeTable() {
     setIsModalOpen(true);
   };
 
+  const handleDelete = async (typeId: number) => {
+    const confirm = window.confirm("هل أنت متأكد أنك تريد حذف هذا القسم؟");
+    if (!confirm) return;
+
+    try {
+      await deleteStoreType(typeId);
+      toast.success("تم حذف القسم");
+      setStoreTypes((prev) => prev.filter((s) => s.TypeId !== typeId));
+    } catch (error) {
+      toast.error("فشل في حذف القسم");
+      console.error("delete error", error);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-end mb-4">
@@ -47,7 +62,13 @@ export default function StoreTypeTable() {
 
       <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة", "إجراءات"]}>
         {storeTypes.map((type, index) => (
-          <StoreTypeRow key={type.TypeId} type={type} index={index} onEdit={handleEdit} />
+          <StoreTypeRow
+            key={type.TypeId}
+            type={type}
+            index={index}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ))}
       </Table>
 

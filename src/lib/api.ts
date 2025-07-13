@@ -40,18 +40,6 @@ export async function addStoreType(values: StoreTypeInput) {
       resolve({ success: true, message: "Successfully added (mock)" });
     }, 1000);
   });
-
-  /*
-  const formData = buildStoreTypeFormData(values);
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/CreateStoreType`, {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response.ok) throw new Error("Failed to add store type");
-
-  return await response.json();
-  */
 }
 
 // Update existing store type (mock)
@@ -63,18 +51,17 @@ export async function updateStoreType(values: StoreTypeInput) {
       resolve({ success: true, message: "Successfully updated (mock)" });
     }, 1000);
   });
+}
 
-  /*
-  const formData = buildStoreTypeFormData(values);
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/StoreTypes/Update`, {
-    method: "PUT",
-    body: formData,
+// Delete store type (mock)
+export async function deleteStoreType(typeId: number) {
+  console.log("🗑️ Mock DELETE store type:", typeId);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, message: "Deleted (mock)" });
+    }, 700);
   });
-
-  if (!response.ok) throw new Error("Failed to update store type");
-
-  return await response.json();
-  */
 }
 
 // Unified entry point
