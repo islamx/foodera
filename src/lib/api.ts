@@ -7,20 +7,52 @@ export type StoreTypeInput = {
   Icon_path: File | string | null;
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+// ===================================================
+// 🔧 Mock data for fallback
+// ===================================================
+const mockStoreTypes: StoreType[] = [
+  {
+    Id: "1",
+    Name_Ar: "مطاعم",
+    Name_En: "Restaurants",
+    IsActive: true,
+    Icon_path: "/icons/restaurant.svg"
+  },
+  {
+    Id: "2", 
+    Name_Ar: "كافيهات",
+    Name_En: "Cafes",
+    IsActive: true,
+    Icon_path: "/icons/cafe.svg"
+  },
+  {
+    Id: "3",
+    Name_Ar: "محلات حلويات",
+    Name_En: "Sweet Shops",
+    IsActive: true,
+    Icon_path: "/icons/sweets.svg"
+  }
+];
 
 // ===================================================
 // ✅ Get all store types (with pagination support)
 // ===================================================
 export async function getStoreTypes(page = 1, pageSize = 50): Promise<StoreType[]> {
-  const res = await fetch(`${API_BASE}/StoreTypes/GetAllTypes?page=${page}&pageSize=${pageSize}`);
-  const json = await res.json();
+  try {
+    const res = await fetch(`/api/store-types?page=${page}&pageSize=${pageSize}`);
+    const json = await res.json();
 
-  if (!res.ok || !json.Success) {
-    throw new Error(json.Message || "Failed to fetch store types");
+    if (!res.ok || !json.Success) {
+      throw new Error(json.Message || "Failed to fetch store types");
+    }
+
+    return json.Data;
+  } catch (error) {
+    console.error("API Error:", error);
+    console.log("Using mock data as fallback");
+    // Return mock data as fallback
+    return mockStoreTypes;
   }
-
-  return json.Data;
 }
 
 
@@ -48,7 +80,7 @@ export async function addStoreType(values: StoreTypeInput) {
     Icon_path: normalizeIconPath(values.Icon_path),
   };
 
-  const res = await fetch(`${API_BASE}/StoreTypes/CreateStoreType`, {
+  const res = await fetch(`/api/store-types/create`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -79,7 +111,7 @@ export async function updateStoreType(id: string | number, values: StoreTypeInpu
     Icon_path: normalizeIconPath(values.Icon_path),
   };
 
-  const url = `${API_BASE}/StoreTypes/UpdateStoreType/${id}`;
+  const url = `/api/store-types/update/${id}`;
 
   const res = await fetch(url, {
     method: "PUT",
