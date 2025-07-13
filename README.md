@@ -1,4 +1,4 @@
-# Typika - Store Management System
+# Foodera - Store Management System
 
 A modern, responsive web application for managing store types and categories with a beautiful Arabic RTL interface.
 
