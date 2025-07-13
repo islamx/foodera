@@ -27,6 +27,10 @@ export default function StoreTypeRow({ type, index }: StoreTypeRowProps) {
       <td className="p-2">
         {type.IsActive === null || type.IsActive === false ? "غير مفعل" : "مفعل"}
       </td>
+      <td className="p-2 space-x-2 text-sm text-blue-600">
+        <button className="hover:underline">تعديل</button>
+        <button className="text-red-600 hover:underline">حذف</button>
+      </td>
     </tr>
   );
 }

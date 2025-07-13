@@ -24,7 +24,7 @@ export default function StoreTypeTable() {
   }, []);
 
   return (
-    <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة"]}>
+    <Table headers={["#", "الصورة", "الاسم بالعربي", "الاسم بالإنجليزي", "الحالة", "إجراءات"]}>
       {storeTypes.map((type, index) => (
         <StoreTypeRow key={type.TypeId} type={type} index={index} />
       ))}
