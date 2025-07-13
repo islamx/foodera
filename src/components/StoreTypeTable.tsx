@@ -14,7 +14,8 @@ export default function StoreTypeTable() {
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [selectedItem, setSelectedItem] = useState<StoreType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const [loading, setLoading] = useState(false);
+  const itemsPerPage = 5;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -23,12 +24,15 @@ export default function StoreTypeTable() {
 
   const refreshData = async () => {
     try {
+      setLoading(true);
       const data = await getStoreTypes(1, 50); // pagination params
       setStoreTypes(data);
       setCurrentPage(1); // Reset to first page on data refresh
     } catch (error) {
       console.error("Error refreshing store types", error);
       toast.error("فشل في تحميل الأقسام");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,45 +95,53 @@ export default function StoreTypeTable() {
             style={{ direction: "rtl" }}
           />
         </div>
-        {/* Table with pagination */}
-        <Table headers={["الاسم بالعربي", "الاسم بالإنجليزي", "الصورة", "الحالة", "حذف", "تعديل"]}>
-          {currentItems.map((type, index) => (
-            <StoreTypeRow
-              key={`${type.Id}-${index}`}
-              type={type}
-              index={index}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        </Table>
-        {/* Pagination controls */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 my-4">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
-            >
-              السابق
-            </button>
-            {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`px-3 py-1 rounded cursor-pointer ${currentPage === i + 1 ? 'bg-yellow-400 text-white' : 'bg-gray-100 text-gray-700'}`}
-              >
-                {i + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
-            >
-              التالي
-            </button>
+        {/* Table with pagination or loading spinner */}
+        {loading ? (
+          <div className="flex justify-center items-center" style={{ minHeight: '250px' }}>
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-yellow-400 border-t-transparent"></div>
           </div>
+        ) : (
+          <>
+            <Table headers={["الاسم بالعربي", "الاسم بالإنجليزي", "الصورة", "الحالة", "حذف", "تعديل"]}>
+              {currentItems.map((type, index) => (
+                <StoreTypeRow
+                  key={`${type.Id}-${index}`}
+                  type={type}
+                  index={index}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              ))}
+            </Table>
+            {/* Pagination controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 my-4">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+                >
+                  السابق
+                </button>
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrentPage(i + 1)}
+                    className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-yellow-400 text-white' : 'bg-gray-100 text-gray-700'}`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded bg-gray-200 text-gray-700 disabled:opacity-50"
+                >
+                  التالي
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
