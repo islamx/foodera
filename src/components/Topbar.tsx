@@ -1,4 +1,5 @@
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import NotificationManager from "./shared/NotificationManager";
 
 export default function Topbar() {
   return (
@@ -19,10 +20,7 @@ export default function Topbar() {
           <FaUserCircle size={32} className="text-gray-400" />
           <span className="font-semibold text-gray-700">Admin</span>
         </div>
-        <button className="relative">
-          <FaBell size={20} className="text-gray-500 hover:text-yellow-500" />
-          <span className="absolute -top-1 -right-1 bg-[#0263db] text-white text-xs rounded-full px-1">1</span>
-        </button>
+        <NotificationManager />
       </div>
     </header>
   );

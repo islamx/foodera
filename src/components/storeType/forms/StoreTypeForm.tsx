@@ -49,17 +49,26 @@ export default function StoreTypeForm({
 
           if (mode === "edit" && typeId) {
             await updateStoreType(typeId, values);
-            toast.success("تم تعديل القسم");
+            toast.success("تم تعديل القسم بنجاح");
+            // Add notification for edit
+            if (typeof window !== 'undefined' && (window as any).addNotification) {
+              (window as any).addNotification("edit", values.Name_Ar);
+            }
           } else {
             await addStoreType(values);
-            toast.success("تم إضافة القسم");
+            toast.success("تم إضافة القسم بنجاح");
+            // Add notification for add
+            if (typeof window !== 'undefined' && (window as any).addNotification) {
+              (window as any).addNotification("add", values.Name_Ar);
+            }
           }
 
           onSuccess?.();
           onClose();
         } catch (error) {
-          toast.error("فشل في " + (mode === "edit" ? "تعديل" : "إضافة") + " القسم");
-          console.error("فشل في العملية", error);
+          const action = mode === "edit" ? "تعديل" : "إضافة";
+          toast.error(`فشل في ${action} القسم`);
+          console.error(`فشل في ${action} القسم:`, error);
         } finally {
           setSubmitting(false);
         }
