@@ -16,11 +16,14 @@ Typika is a Next.js-based store management system designed to help businesses or
 - **Bilingual Support**: Full Arabic and English language support
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 - **Modern UI/UX**: Clean, intuitive interface with Tailwind CSS
-- **Real-time Search**: Instant search functionality across store types
-- **Pagination**: Efficient data pagination for large datasets
-- **Floating Action Button**: Quick access to add new store types
+- **Real-time Search**: Instant search functionality across store types, with rich empty state and suggestions
+- **Smart Pagination**: Responsive pagination with ellipsis for large datasets
+- **Advanced Notification System**: Dynamic notification bell with unread counter, dropdown, and action history
+- **Floating Action Button**: Responsive, always-accessible button to add new store types, with improved mobile experience
+- **Rich Empty States**: Friendly, icon-based empty states for both no data and no search results, with clear calls to action
 - **Toast Notifications**: User-friendly feedback system
 - **RTL Layout**: Optimized for Arabic text and layout
+- **Fully Responsive Tables**: Tables support horizontal scroll on mobile, always fill container on desktop
 
 ## 🛠️ Tech Stack
 
