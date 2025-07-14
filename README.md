@@ -4,7 +4,7 @@ A modern, responsive web application for managing store types and categories wit
 
 ## 🚀 Live Demo
 
-Visit the live application: **[https://typika.vercel.app/](https://typika.vercel.app/){:target="_blank" rel="noopener noreferrer"}**
+Visit the live application: [https://typika.vercel.app/](https://typika.vercel.app/)
 
 ## 📋 About
 
@@ -14,7 +14,7 @@ Typika is a Next.js-based store management system designed to help businesses or
 
 - **Store Type Management**: Add, edit, and manage store types/categories
 - **Bilingual Support**: Full Arabic and English language support
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Responsive Design**: Works seamlessly on desktop and mobile devices, including tables with horizontal scroll on mobile and full-width on desktop
 - **Modern UI/UX**: Clean, intuitive interface with Tailwind CSS
 - **Real-time Search**: Instant search functionality across store types, with rich empty state and suggestions
 - **Smart Pagination**: Responsive pagination with ellipsis for large datasets
@@ -23,7 +23,6 @@ Typika is a Next.js-based store management system designed to help businesses or
 - **Rich Empty States**: Friendly, icon-based empty states for both no data and no search results, with clear calls to action
 - **Toast Notifications**: User-friendly feedback system
 - **RTL Layout**: Optimized for Arabic text and layout
-- **Fully Responsive Tables**: Tables support horizontal scroll on mobile, always fill container on desktop
 
 ## 🛠️ Tech Stack
 
@@ -67,7 +66,7 @@ yarn dev
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000){:target="_blank" rel="noopener noreferrer"} with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 📁 Project Structure
 
@@ -94,10 +93,10 @@ src/
 
 ## 👨‍💻 Author
 
-**Islam Abdelzaer** - Founder at [islamz.me](https://islamz.me){:target="_blank" rel="noopener noreferrer"}
+**Islam Abdelzaer** - Founder at [islamz.me](https://islamz.me)
 
-- **Website**: [https://islamz.me](https://islamz.me){:target="_blank" rel="noopener noreferrer"}
-- **GitHub**: [@islamz](https://github.com/islamz){:target="_blank" rel="noopener noreferrer"}
+- **Website**: [https://islamz.me](https://islamz.me)
+- **GitHub**: [@islamz](https://github.com/islamz)
 
 ## 📄 License
 
