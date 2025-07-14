@@ -10,6 +10,7 @@ import StoreTypeTableHeader from "./StoreTypeTableHeader";
 import StoreTypeTableContent from "./StoreTypeTableContent";
 import StoreTypeModal from "./StoreTypeModal";
 import { toast } from "react-hot-toast";
+import { FaSearch, FaFolderOpen } from "react-icons/fa";
 
 export default function StoreTypeTable() {
   const [storeTypes, setStoreTypes] = useState<StoreType[]>([]);
@@ -70,30 +71,49 @@ export default function StoreTypeTable() {
 
   return (
     <>
-      <FloatingActionButton onClick={handleAdd} title="إضافة قسم جديد" showText={true} />
-      <div className="w-full bg-white rounded-lg border border-gray-200 p-0 mb-8 px-2 md:px-0">
-        <StoreTypeTableHeader 
-          search={search} 
-          setSearch={setSearch} 
-          setCurrentPage={setCurrentPage} 
-        />
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <StoreTypeTableContent
-              currentItems={currentItems}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
+      {storeTypes.length === 0 ? (
+        <div className="w-full bg-white rounded-lg border border-gray-200 p-8 mb-8 flex flex-col items-center justify-center gap-4">
+          <FaFolderOpen size={40} className="text-gray-300 mb-2" />
+          <div className="text-gray-500 text-lg font-semibold">لا يوجد أي أقسام حتى الآن</div>
+          <div className="text-sm text-gray-400">يمكنك البدء بإضافة أول قسم لإدارة متاجرك بسهولة</div>
+          <div className="text-xs text-gray-300">👇 اضغط على الزر بالأسفل للبدء</div>
+          <button
+            onClick={handleAdd}
+            className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-6 py-2 rounded transition"
+          >
+            أضف أول قسم
+          </button>
+        </div>
+      ) : (
+        <>
+          <FloatingActionButton onClick={handleAdd} title="إضافة قسم جديد" showText={true} />
+          <div className="w-full bg-white rounded-lg border border-gray-200 p-0 mb-8 px-2 md:px-0">
+            <StoreTypeTableHeader 
+              search={search} 
+              setSearch={setSearch} 
+              setCurrentPage={setCurrentPage} 
             />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        )}
-      </div>
+            {loading ? (
+              <Loader />
+            ) : (
+              <div className="flex flex-col">
+                <StoreTypeTableContent
+                  currentItems={currentItems}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+                <div className="w-full py-2 flex justify-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
       <StoreTypeModal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}

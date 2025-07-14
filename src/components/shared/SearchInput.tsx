@@ -10,11 +10,10 @@ export default function SearchInput({ value, onChange, placeholder }: SearchInpu
   return (
     <input
       type="text"
-      placeholder={placeholder || "ابحث"}
-      className="px-3 py-1 rounded bg-white border border-gray-200 text-xs text-right w-full md:w-40"
-      style={{ direction: "rtl" }}
       value={value}
       onChange={onChange}
+      placeholder={placeholder || "ابحث"}
+      className="px-4 py-2 rounded bg-white border border-gray-200 text-xs text-right w-full md:w-40 rtl focus:outline-none hover:outline-none"
     />
   );
 } 

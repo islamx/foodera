@@ -6,15 +6,15 @@ import Topbar from "@/components/Topbar";
 
 export default function Home() {
   return (
-    <div dir="rtl" className="min-h-screen bg-gray-50 text-black flex flex-col" style={{direction: 'rtl'}}>
+    <div dir="rtl" className="min-h-screen bg-gray-50 text-black flex flex-col rtl">
       <Topbar />
       <div className="flex flex-1">
         {/* Sidebar على اليسار */}
         <div className="hidden md:block">
           <Sidebar />
         </div>
-        {/* Main content مع margin-left بدل margin-right */}
-        <div className="flex-1 flex flex-col" style={{marginRight: '4rem'}}>
+        {/* Main content مع margin-right بدل margin-right */}
+        <div className="flex-1 flex flex-col mr-0 md:mr-16 min-w-0">
           <main className="p-4">
             <StoreTypeTable />
           </main>
