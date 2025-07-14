@@ -18,7 +18,7 @@ export default function StoreTypeTable() {
   const [mode, setMode] = useState<"add" | "edit">("add");
   const [selectedItem, setSelectedItem] = useState<StoreType | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Changed to true initially
   const [search, setSearch] = useState("");
   const itemsPerPage = 5;
 
@@ -71,7 +71,12 @@ export default function StoreTypeTable() {
 
   return (
     <>
-      {storeTypes.length === 0 ? (
+      {/* Show loader while loading, then empty state if no data, then table if data exists */}
+      {loading ? (
+        <div className="w-full bg-white rounded-lg border border-gray-200 p-8 mb-8 flex flex-col items-center justify-center gap-4">
+          <Loader />
+        </div>
+      ) : storeTypes.length === 0 ? (
         <div className="w-full bg-white rounded-lg border border-gray-200 p-8 mb-8 flex flex-col items-center justify-center gap-4">
           <FaFolderOpen size={40} className="text-gray-300 mb-2" />
           <div className="text-gray-500 text-lg font-semibold">لا يوجد أي أقسام حتى الآن</div>
@@ -93,24 +98,20 @@ export default function StoreTypeTable() {
               setSearch={setSearch} 
               setCurrentPage={setCurrentPage} 
             />
-            {loading ? (
-              <Loader />
-            ) : (
-              <div className="flex flex-col">
-                <StoreTypeTableContent
-                  currentItems={currentItems}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
+            <div className="flex flex-col">
+              <StoreTypeTableContent
+                currentItems={currentItems}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+              <div className="w-full py-2 flex justify-center">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
                 />
-                <div className="w-full py-2 flex justify-center">
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                  />
-                </div>
               </div>
-            )}
+            </div>
           </div>
         </>
       )}
