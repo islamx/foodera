@@ -19,12 +19,15 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
 
   useEffect(() => {
     if (field.value && typeof field.value === "string") {
-      if (field.value.startsWith("http")) {
+      if (field.value.startsWith("data:image")) {
+        // Base64 string
+        setPreviewSrc(field.value);
+      } else if (field.value.startsWith("http")) {
         setPreviewSrc(field.value);
       } else if (field.value.startsWith("/Icons")) {
         setPreviewSrc(`${BASE_IMAGE_URL}${field.value}`);
       } else {
-        setPreviewSrc(`${BASE_IMAGE_URL}/Icons/${field.value}`);
+        setPreviewSrc(`/api/images/${field.value}`);
       }
       setError(false);
     } else {
@@ -36,8 +39,11 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFieldValue(name, null); // Prevent using file upload
-      alert("⚠️ رفع الصور غير مدعوم حاليًا. استخدم فقط اسم الصورة الموجود على السيرفر.");
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFieldValue(name, reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -56,14 +62,13 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
     setFieldValue(name, value);
   };
 
-
   return (
     <div>
       <label className="block mb-1 font-medium">{label}</label>
 
       <input
         type="text"
-        value={typeof field.value === "string" ? field.value : ""}
+        value={typeof field.value === "string" && !field.value.startsWith("data:image") ? field.value : ""}
         onChange={handleTextChange}
         placeholder="مثال: bakery.png"
         className="w-full border rounded p-2 text-sm"
@@ -72,8 +77,8 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
       <input
         type="file"
         accept="image/*"
-        className="hidden"
         onChange={handleInputChange}
+        className="mt-2"
       />
 
       <div className="mt-2 w-24 h-24 rounded overflow-hidden border flex items-center justify-center bg-gray-50">

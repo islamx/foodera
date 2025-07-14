@@ -18,7 +18,7 @@ type StoreTypeFormProps = {
     Name_Ar: string;
     Name_En: string;
     IsActive: boolean;
-    Icon_path: File | string | null;
+    Icon_path: string | null;
   };
 };
 
@@ -42,11 +42,6 @@ export default function StoreTypeForm({
       validationSchema={storeTypeSchema}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          if (values.Icon_path instanceof File) {
-            toast.error("يرجى إدخال اسم الصورة فقط (مثل bakery.png)");
-            return;
-          }
-
           if (mode === "edit" && typeId) {
             await updateStoreType(typeId, values);
             toast.success("تم تعديل القسم بنجاح");
@@ -75,7 +70,6 @@ export default function StoreTypeForm({
           setSubmitting(false);
         }
       }}
-      
     >
       {({ isSubmitting }) => (
         <Form className="space-y-4">
