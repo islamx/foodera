@@ -36,14 +36,24 @@ export default function ImageUploadField({ name, label }: ImageUploadFieldProps)
     }
   }, [field.value]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFieldValue(name, reader.result);
-      };
-      reader.readAsDataURL(file);
+      // Upload the image to the backend
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Replace this URL with your actual upload endpoint
+      const response = await fetch("https://41.38.56.140/Store.ApI/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      // Assume backend returns { url: "/Icons/your_image.jpg" }
+      if (data.url) {
+        setFieldValue(name, data.url); // Store the image URL in the form
+      }
     }
   };
 
