@@ -32,6 +32,17 @@ export default function StoreTypeModal({
 
   if (!open) return null;
 
+  // Ensure Icon_path is string|null (not File)
+  const safeInitialValues = initialValues
+    ? {
+        ...initialValues,
+        Icon_path:
+          typeof initialValues.Icon_path === "string" || initialValues.Icon_path === null
+            ? initialValues.Icon_path
+            : null,
+      }
+    : undefined;
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
@@ -51,7 +62,7 @@ export default function StoreTypeModal({
           onClose={onClose}
           onSuccess={onSuccess}
           mode={mode}
-          initialValues={initialValues}
+          initialValues={safeInitialValues}
           typeId={initialValues?.TypeId}
         />
       </div>
