@@ -10,7 +10,7 @@ import StoreTypeTableHeader from "./StoreTypeTableHeader";
 import StoreTypeTableContent from "./StoreTypeTableContent";
 import StoreTypeModal from "./StoreTypeModal";
 import { toast } from "react-hot-toast";
-import { FaSearch, FaFolderOpen } from "react-icons/fa";
+import { FaFolderOpen } from "react-icons/fa";
 
 export default function StoreTypeTable() {
   const [storeTypes, setStoreTypes] = useState<StoreType[]>([]);
